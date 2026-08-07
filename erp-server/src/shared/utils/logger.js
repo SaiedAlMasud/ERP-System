@@ -1,7 +1,19 @@
-export const logger = {
-  info: (...args) => console.log("[INFO]", ...args),
+const logger = {
+  info: (...messages) => {
+    console.log("[INFO]", ...messages);
+  },
 
-  warn: (...args) => console.warn("[WARN]", ...args),
+  warn: (...messages) => {
+    console.warn("[WARN]", ...messages);
+  },
 
-  error: (...args) => console.error("[ERROR]", ...args),
+  error: (...messages) => {
+    console.error("[ERROR]", ...messages);
+  },
+
+  success: (...messages) => {
+    console.log("[SUCCESS]", ...messages);
+  },
 };
+
+export default logger;
