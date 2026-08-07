@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
 import healthRoutes from "./modules/health/health.routes.js";
+import errorHandler from "./shared/middleware/error.middleware.js";
 
 const app = express();
 
@@ -28,6 +29,12 @@ app.use(cookieParser());
 
 app.use(morgan("dev"));
 
+//app.use("/api/health", healthRoutes);
+
+// Routes
 app.use("/api/health", healthRoutes);
+
+// Global Error Handler (must be last)
+app.use(errorHandler);
 
 export default app;
