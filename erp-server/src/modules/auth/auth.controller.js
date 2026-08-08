@@ -3,17 +3,27 @@ import asyncHandler from "../../shared/utils/asyncHandler.js";
 import authService from "./auth.service.js";
 import { loginSchema } from "./auth.validation.js";
 import User from "../users/user.model.js";
+import { env } from "../../config/env.js";
 
 export const login = asyncHandler(async (req, res) => {
   const validatedData = loginSchema.parse(req.body);
 
   const result = await authService.login(validatedData);
 
+  res.cookie("accessToken", result.accessToken, {
+    httpOnly: true,
+    secure: env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+
   return res.status(200).json(
     new ApiResponse(
       true,
       "Login successful.",
-      result
+      {
+        user: result.user,
+      }
     )
   );
 });
