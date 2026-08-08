@@ -37,3 +37,20 @@ export const getCurrentUser = asyncHandler(async (req, res) => {
     )
   );
 });
+
+export const logout = asyncHandler(async (req, res) => {
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+  });
+
+  return res.status(200).json(
+    new ApiResponse(
+      true,
+      "Logout successful.",
+      null
+    )
+  );
+});
