@@ -8,6 +8,7 @@ import morgan from "morgan";
 import healthRoutes from "./modules/health/health.routes.js";
 import errorHandler from "./shared/middleware/error.middleware.js";
 import authRoutes from "./modules/auth/auth.routes.js";
+import userRoutes from "./modules/users/user.routes.js";
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(morgan("dev"));
 // Routes
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 // Global Error Handler (must be last)
 app.use(errorHandler);
