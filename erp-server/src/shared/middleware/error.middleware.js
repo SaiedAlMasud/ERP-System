@@ -1,19 +1,32 @@
+import { ZodError } from "zod";
 import ApiError from "../utils/ApiError.js";
 
 const errorHandler = (err, req, res, next) => {
-  let error = err;
-
-  if (!(error instanceof ApiError)) {
-    error = new ApiError(
-      error.statusCode || 500,
-      error.message || "Internal Server Error"
-    );
+  if (err instanceof ZodError) {
+    return res.status(400).json({
+      success: false,
+      message: "Validation failed.",
+      errors: err.issues.map((issue) => ({
+        field: issue.path.join("."),
+        message: issue.message,
+      })),
+    });
   }
 
-  return res.status(error.statusCode).json({
+  if (err instanceof ApiError) {
+    return res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+      errors: err.errors,
+    });
+  }
+
+  console.error(err);
+
+  return res.status(500).json({
     success: false,
-    message: error.message,
-    errors: error.errors,
+    message: "Internal Server Error.",
+    errors: [],
   });
 };
 

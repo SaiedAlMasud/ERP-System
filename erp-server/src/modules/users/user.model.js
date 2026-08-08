@@ -104,7 +104,7 @@ const userSchema = new mongoose.Schema(
 // Indexes
 // ===========================
 
-userSchema.index({ email: 1 }, { unique: true });
+//userSchema.index({ email: 1 }, { unique: true });
 userSchema.index({ role: 1 });
 userSchema.index({ status: 1 });
 
@@ -120,17 +120,15 @@ userSchema.virtual("fullName").get(function () {
 // Middleware
 // ===========================
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
   if (!this.isModified("password")) {
-    return next();
+    return;
   }
 
   this.password = await bcrypt.hash(
     this.password,
     PASSWORD_SALT_ROUNDS
   );
-
-  next();
 });
 
 // ===========================
