@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+
 import apiRequest from "@/lib/api";
+import DashboardShell from "@/components/dashboard/DashboardShell";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -40,8 +43,8 @@ export default function DashboardLayout({ children }) {
   }
 
   return (
-    <div className="min-h-screen">
+    <DashboardShell user={user}>
       {children}
-    </div>
+    </DashboardShell>
   );
 }
