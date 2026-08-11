@@ -1,5 +1,9 @@
 import User from "../users/user.model.js";
-import { USER_ROLES, USER_STATUS } from "../users/user.constants.js";
+import Employee from "../employees/employee.model.js";
+import { USER_STATUS } from "../users/user.constants.js";
+import {
+  EMPLOYEE_STATUS,
+} from "../employees/employee.constants.js";
 
 class DashboardService {
   async getOverview() {
@@ -8,27 +12,27 @@ class DashboardService {
       totalEmployees,
       activeEmployees,
       inactiveEmployees,
-      suspendedEmployees,
+      onLeaveEmployees,
+      terminatedEmployees,
     ] = await Promise.all([
       User.countDocuments(),
 
-      User.countDocuments({
-        role: USER_ROLES.EMPLOYEE,
+      Employee.countDocuments(),
+
+      Employee.countDocuments({
+        status: EMPLOYEE_STATUS.ACTIVE,
       }),
 
-      User.countDocuments({
-        role: USER_ROLES.EMPLOYEE,
-        status: USER_STATUS.ACTIVE,
+      Employee.countDocuments({
+        status: EMPLOYEE_STATUS.INACTIVE,
       }),
 
-      User.countDocuments({
-        role: USER_ROLES.EMPLOYEE,
-        status: USER_STATUS.INACTIVE,
+      Employee.countDocuments({
+        status: EMPLOYEE_STATUS.ON_LEAVE,
       }),
 
-      User.countDocuments({
-        role: USER_ROLES.EMPLOYEE,
-        status: USER_STATUS.SUSPENDED,
+      Employee.countDocuments({
+        status: EMPLOYEE_STATUS.TERMINATED,
       }),
     ]);
 
@@ -41,7 +45,8 @@ class DashboardService {
         total: totalEmployees,
         active: activeEmployees,
         inactive: inactiveEmployees,
-        suspended: suspendedEmployees,
+        onLeave: onLeaveEmployees,
+        terminated: terminatedEmployees,
       },
 
       customers: null,

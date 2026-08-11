@@ -12,6 +12,7 @@ import userRoutes from "./modules/users/user.routes.js";
 import { env } from "./config/env.js";
 import dashboardRoutes from "./modules/dashboard/dashboard.routes.js";
 import employeeRoutes from "./modules/employees/employee.routes.js";
+import productRoutes from "./modules/products/product.routes.js";
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/dashboard",dashboardRoutes);
 app.use("/api/employees", employeeRoutes);
+app.use("/api/products", productRoutes);
 
 // Global Error Handler (must be last)
 app.use(errorHandler);
