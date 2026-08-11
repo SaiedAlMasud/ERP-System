@@ -4,6 +4,7 @@ import { USER_STATUS } from "../users/user.constants.js";
 import {
   EMPLOYEE_STATUS,
 } from "../employees/employee.constants.js";
+import Product from "../products/product.model.js";
 
 class DashboardService {
   async getOverview() {
@@ -14,6 +15,7 @@ class DashboardService {
       inactiveEmployees,
       onLeaveEmployees,
       terminatedEmployees,
+      totalProducts,
     ] = await Promise.all([
       User.countDocuments(),
 
@@ -34,6 +36,8 @@ class DashboardService {
       Employee.countDocuments({
         status: EMPLOYEE_STATUS.TERMINATED,
       }),
+
+      Product.countDocuments(),
     ]);
 
     return {
@@ -50,7 +54,9 @@ class DashboardService {
       },
 
       customers: null,
-      products: null,
+      products: {
+        total: totalProducts,
+      },
       inventory: null,
       sales: null,
       purchases: null,

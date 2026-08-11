@@ -31,7 +31,7 @@ export default function DashboardPage() {
       } catch (error) {
         setError(
           error.message ||
-            "Unable to load dashboard data."
+          "Unable to load dashboard data."
         );
       } finally {
         setLoading(false);
@@ -90,14 +90,8 @@ export default function DashboardPage() {
 
         <StatCard
           title="Total Products"
-          value={
-            overview?.products?.total ?? "—"
-          }
-          description={
-            overview?.products
-              ? "Registered products"
-              : "Coming soon"
-          }
+          value={overview?.products?.total ?? 0}
+          description="Registered products"
           icon={Package}
         />
 
